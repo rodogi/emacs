@@ -69,6 +69,29 @@ Wrap paragraphs automatically
 (add-hook 'text-mode-hook 'auto-fill-mode)
 (add-hook 'org-mode-hook 'auto-fill-mode)
   #+end_src
+Deal with pop-up windows better with [[https://github.com/m2ym/popwin-el][popwin]].
+
+#+BEGIN_SRC emacs-lisp
+(use-package popwin
+  :config
+  (popwin-mode 1)
+  ;; set all buffers to appear to the right
+  (push '(help-mode :position right :width 0.45) popwin:special-display-config))
+#+END_SRC
+
+Count the number of occurrences of a word when searched.
+#+BEGIN_SRC emacs-lisp
+(use-package anzu
+  :config
+  (global-anzu-mode +1)
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp))
+#+END_SRC
+
+Set the number of the column
+#+BEGIN_SRC emacs-lisp
+(setq column-number-mode 1)
+#+END_SRC
 * Evil
 Load evil.
 #+begin_src emacs-lisp
@@ -156,15 +179,16 @@ Highlight uncommited changes.
 (setq ispell-dictionary "english")
 #+end_src
 * Python
-	Let's start with installing =elpy=.
+Let's start with installing =elpy=. Also, let's add jedi as the 
+
 	#+begin_src emacs-lisp
 (use-package elpy
   :init
   (elpy-enable)
-	:config
-  (setq elpy-rpc-backend "jedi")
-	;; The path to python3
-  (setq elpy-rpc-python-command "/usr/local/Cellar/python/3.6.3/bin/python3"))
+  :config
+  ;; The path to python3
+  (setq elpy-rpc-python-command "/usr/local/Cellar/python/3.6.3/bin/python3")
+  (global-set-key (kbd "M-.") 'elpy-goto-definition))
 	#+end_src
 	
 Then a little bit of configuration for the interpreter.
@@ -178,7 +202,9 @@ Then a little bit of configuration for the interpreter.
       python-shell-prompt-detect-failure-warning nil))
 #+end_src
 
-Use =jedi= to autocompletion
+Use =jedi= for autocompletion. If used for the first time, we need to run the command
+=M-x jedi:install-server=.
+
 #+begin_src emacs-lisp
 (use-package jedi
   :config
@@ -196,7 +222,8 @@ Format according to pep-8 on save.
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 #+end_src
 * Org
-	First things first
+** General 
+ First things first
 	#+begin_src emacs-lisp
 (use-package org)
 
@@ -258,7 +285,7 @@ function and then we will create the templates.
 (use-package ox-twbs)
 		#+end_src
 *** Code blocks
-		Allow to evaluate code in =python=, =C=, =bash=, and =elisp=.
+Allow to evaluate code in =python=, =C=, =bash=, and =elisp=.
 
 #+begin_src emacs-lisp
 (org-babel-do-load-languages
@@ -267,6 +294,11 @@ function and then we will create the templates.
 			     (emacs-lisp . t)
 					 (shell . t)))
 #+end_src
+
+Allow TAB to function normally inside code blocks.
+#+BEGIN_SRC emacs-lisp
+(setq org-src-tab-acts-natively t)
+#+END_SRC
 *** Latex
 		Set the process of compilation of a latex document.
 		#+begin_src emacs-lisp
