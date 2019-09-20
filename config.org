@@ -5,11 +5,13 @@
 I recently went for a full migration to an =org= file, and things be said, my config file looks way
 more tidy. I recommend to make the change to have a more *literal programming* kind of =init= file.
 * Personal info
-(setq user-full-name "Rodrigo Dorantes Gilardi"
+	#+begin_src emacs-lisp
+	(setq user-full-name "Rodrigo Dorantes Gilardi"
       user-mail-address "rodgdor@gmail.com"
       calendar-latitude 19.4326
       calendar-longitude -99.13
       calendar-location-name "Mexico City")
+	#+end_src
 * =use-package=
 This configuration is inspired by Harry Schwartz
 [[https://github.com/hrs/dotfiles/blob/master/emacs/.emacs.d/configuration.org][config file]]. So let's first start by setting =use-package=.
