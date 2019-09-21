@@ -37,14 +37,8 @@ Always compile packages, and use the newest version available.
 Some sensible, rational defaults that help when writing/reading code.
 
 #+begin_src emacs-lisp
-;;; Set line numbers and relative mode
+;; Set line numbers and relative mode
 (display-line-numbers-mode)
-(when (version<= "26.0.50" emacs-version)
-    (linum-relative-global-mode 0)
-    ;; Show actual number instead of 0 an set
-    (setq linum-reative-current-symbol "")
-    (set-face-attribute 'linum nil :height 120))
-
 ;; Ask y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; When you double-click on a file in the Mac Finder open it as a
@@ -128,11 +122,11 @@ Use full-path-name of file in window
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 #+end_src
-Use solarized theme and set font and mode bar.
+Use zenburn theme and set font and mode bar.
 #+begin_src emacs-lisp
-(use-package solarized-theme
+(use-package zenburn-theme
   :config
-  (load-theme 'solarized-dark t)
+  (load-theme 'zenburn t)
   (let ((line (face-attribute 'mode-line :underline)))
     (set-face-attribute 'mode-line          nil :overline   line)
     (set-face-attribute 'mode-line-inactive nil :overline   line)
@@ -170,6 +164,12 @@ Highlight uncommited changes.
   :config
   (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode))
 #+end_src
+
+Change the specs for the cursor.
+#+BEGIN_SRC emacs-lisp
+(setq evil-insert-state-cursor '((bar . 2) "yellow")
+      evil-normal-state-cursor '(box "yellow"))
+#+END_SRC
 * Spelling
 #+begin_src emacs-lisp
 (dolist (hook '(org-mode-hook latex-mode-hook tex-mode-hook git-commit-mode-hook))

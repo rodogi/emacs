@@ -19,8 +19,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (auto-compile use-package solarized-theme py-autopep8 popwin ox-twbs ox-hugo org-ref org-bullets neotree moody minions magit-popup magit linum-relative jedi header2 haskell-mode ghub fill-column-indicator exec-path-from-shell evil-visualstar evil-vimish-fold evil-surround evil-leader ess elpy ein diff-hl avy anzu all-the-icons))))
+	 (quote
+		(zenburn-theme zenburn auto-compile use-package solarized-theme py-autopep8 popwin ox-twbs ox-hugo org-ref org-bullets neotree moody minions magit-popup magit linum-relative jedi header2 haskell-mode ghub fill-column-indicator exec-path-from-shell evil-visualstar evil-vimish-fold evil-surround evil-leader ess elpy ein diff-hl avy anzu all-the-icons))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
