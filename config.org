@@ -211,45 +211,45 @@ We start by making the symbol `_` as part of the word.
 Let's start with installing =elpy=. Also, let's add jedi as the 
 
 #+begin_src emacs-lisp
-(use-package elpy
-		:init
-		(elpy-enable)
-		:bind ("M-." . elpy-goto-definition)
+	(use-package elpy
+			:init
+			(elpy-enable)
+			:bind ("M-." . elpy-goto-definition)
 
-		:config
-		;; The path to python3
-		(setq exec-path (append exec-path '("/usr/local/bin")))
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-		(setq elpy-rpc-python-command "/usr/local/bin/python3"))
+			:config
+			;; The path to python3
+			(setq exec-path (append exec-path '("/usr/local/bin")))
+			(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+			(setq elpy-rpc-python-command "/usr/local/bin/python3"))
 #+end_src
 	
 Then a little bit of configuration for the interpreter.
 #+begin_src emacs-lisp
-(use-package python
-		:mode ("\\.py\\'" . python-mode) 
-		:interpreter ("python" . python-mode)
-		:config
-		(setq python-shell-interpreter "/usr/local/bin/jupyter"
-				python-shell-interpreter-args "console --simple-prompt"
-				python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters
-						"jupyter"))
+	(use-package python
+			:mode ("\\.py\\'" . python-mode) 
+			:interpreter ("python" . python-mode)
+			:config
+			(setq python-shell-interpreter "/usr/local/bin/jupyter"
+					python-shell-interpreter-args "console --simple-prompt"
+					python-shell-prompt-detect-failure-warning nil)
+	add-to-list 'python-shell-completion-native-disabled-interpreters
+							"jupyter"))
 #+end_src
 
 Use =jedi= for autocompletion. If used for the first time, we need to run the command
 =M-x jedi:install-server=.
 
 #+begin_src emacs-lisp
-(use-package jedi
-  :config
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:complete-on-dot t))
+	(use-package jedi
+		:config
+		(add-hook 'python-mode-hook 'jedi:setup)
+		(setq jedi:complete-on-dot t))
 #+end_src
 Use flycheck for syntax checking.
 #+begin_src emacs-lisp
-(use-package flycheck
-  :config
-	(add-hook 'elpy-mode-hook 'flycheck-mode))
+	(use-package flycheck
+		:config
+		(add-hook 'elpy-mode-hook 'flycheck-mode))
 #+end_src
 Format according to pep-8 on save.
 #+begin_src emacs-lisp
@@ -439,9 +439,9 @@ Switch the default `ls` to have the parameters `lhva`.
 Projectile is a package to work on projects defined by a directory. Let's first install it.
 #+begin_src emacs-lisp
 	(use-package projectile
-	:config
-	(projectile-mode +1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+		:config
+		(projectile-mode +1)
+		(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+		(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 #+end_src
