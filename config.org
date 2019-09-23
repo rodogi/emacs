@@ -38,7 +38,7 @@ Some sensible, rational defaults that help when writing/reading code.
 
 #+begin_src emacs-lisp
 ;; Set line numbers and relative mode
-(display-line-numbers-mode)
+(global-display-line-numbers-mode)
 ;; Ask y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; When you double-click on a file in the Mac Finder open it as a
@@ -49,6 +49,10 @@ Some sensible, rational defaults that help when writing/reading code.
 More sensible indentation (2 instead of 8 spaces).
 #+begin_src emacs-lisp
 (setq-default tab-width 2)
+#+end_src
+Remove the annoying bell sound from Emacs.
+#+begin_src emacs-lisp
+(setq ring-bell-function 'ignore)
 #+end_src
 Get proper line breaks, 100 for text and 80 for programming.
 
@@ -86,6 +90,16 @@ Set the number of the column
 #+BEGIN_SRC emacs-lisp
 (setq column-number-mode 1)
 #+END_SRC
+
+Stop the cursor from blinking.
+#+begin_src emacs-lisp
+(blink-cursor-mode -1)
+#+end_src
+
+Disable auto backup files.
+#+BEGIN_SRC emacs-lisp
+(setq-default backup-inhibited t)
+#+END_SRC
 * Evil
 Load evil.
 #+begin_src emacs-lisp
@@ -101,6 +115,15 @@ Enable vim-surround everywhere.
   (global-evil-surround-mode 1))
 #+end_src
 Use up or down-stream search of visually selected object.
+#+begin_src emacs-lisp
+(use-package evil-escape
+:init
+(evil-escape-mode)
+:config
+(setq-default evil-escape-key-sequence "jk"))
+#+end_src 
+
+
 #+begin_src emacs-lisp
 (use-package evil-visualstar
     :config
@@ -187,25 +210,30 @@ We start by making the symbol `_` as part of the word.
 ** Elpy
 Let's start with installing =elpy=. Also, let's add jedi as the 
 
-	#+begin_src emacs-lisp
+#+begin_src emacs-lisp
 (use-package elpy
-  :init
-  (elpy-enable)
-  :config
-  ;; The path to python3
-  (setq elpy-rpc-python-command "/usr/local/Cellar/python/3.6.3/bin/python3")
-  (global-set-key (kbd "M-.") 'elpy-goto-definition))
-	#+end_src
+		:init
+		(elpy-enable)
+		:bind ("M-." . elpy-goto-definition)
+
+		:config
+		;; The path to python3
+		(setq exec-path (append exec-path '("/usr/local/bin")))
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+		(setq elpy-rpc-python-command "/usr/local/bin/python3"))
+#+end_src
 	
 Then a little bit of configuration for the interpreter.
 #+begin_src emacs-lisp
 (use-package python
-  :mode ("\\.py\\'" . python-mode) 
-  :interpreter ("python" . python-mode)
-	:config
-	(setq python-shell-interpreter "jupyter"
-      python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil))
+		:mode ("\\.py\\'" . python-mode) 
+		:interpreter ("python" . python-mode)
+		:config
+		(setq python-shell-interpreter "/usr/local/bin/jupyter"
+				python-shell-interpreter-args "console --simple-prompt"
+				python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+						"jupyter"))
 #+end_src
 
 Use =jedi= for autocompletion. If used for the first time, we need to run the command
@@ -219,17 +247,21 @@ Use =jedi= for autocompletion. If used for the first time, we need to run the co
 #+end_src
 Use flycheck for syntax checking.
 #+begin_src emacs-lisp
-(add-hook 'elpy-mode-hook 'flycheck-mode)
+(use-package flycheck
+  :config
+	(add-hook 'elpy-mode-hook 'flycheck-mode))
 #+end_src
 Format according to pep-8 on save.
 #+begin_src emacs-lisp
-(use-package py-autopep8)
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+(use-package py-autopep8
+  :config
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 #+end_src
 * Org
 ** General 
+
  First things first
+
 	#+begin_src emacs-lisp
 (use-package org)
 
@@ -346,12 +378,70 @@ Magit is a great package where I prefer its keybinding to =C-x g= rather than =C
 * Helm
 Helm is great for file exploration.
 #+begin_src emacs-lisp
-(use-package helm
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files))
+	(use-package helm
+		:config
+		(helm-mode 1)
+		(global-set-key (kbd "C-x C-f") 'helm-find-files))
 #+end_src
 Let's bind `C-f C-a` to =helm-apropos=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-a") 'helm-apropos)
 #+END_SRC
+Let's look for commands with helm.
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-x") 'helm-M-x)
+#+end_src
+Set helm to fuzzy matching.
+#+begin_src emacs-lisp
+(setq helm-M-x-fuzzy-match t)
+#+end_src
+Show the kill-ring with helm
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+#+end_src
+Get a better buffer to change buffers. Also, enable fuzzy matching in there.
+#+begin_src emacs-lisp
+	(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-b") 'helm-mini)
+	(setq helm-buffers-fuzzy-matching t
+				helm-recentf-fuzzy-match    t)
+#+end_src
+Let's set semantic-mode to be able to use `helm-semantic` and then bind it to 'C-x C-m'.
+Bind heml-imenu to `C-x C-m`.
+#+begin_src emacs-lisp
+(use-package semantic
+:config
+(semantic-mode 1))
+(global-set-key (kbd "C-x C-m") 'helm-semantic-or-imenu)
+#+end_src
+Now let's make it fuzzy matchers.
+#+begin_src emacs-lisp
+(setq helm-semantic-fuzzy-match t
+      helm-imenu-fuzzy-match    t)
+#+end_src
+Use heml-occur with 'C-x C-o'.
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x C-o") 'helm-occur)
+#+end_src
+* Dired
+Switch the default `ls` to have the parameters `lhva`.
+ * =l=: long format
+ * =h=: human readable size
+ * =S=: sort files by size
+ * =a=: all files (including dotfiles)
+ * =r=: reverse the sort
+	
+#+begin_src emacs-lisp
+	(setq dired-listing-switches "-AlShr")
+
+#+end_src
+* Projectile
+Projectile is a package to work on projects defined by a directory. Let's first install it.
+#+begin_src emacs-lisp
+	(use-package projectile
+	:config
+	(projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+#+end_src
