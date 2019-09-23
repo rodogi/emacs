@@ -1,0 +1,13 @@
+* My Emacs config
+
+All the juice is found in the file =config.org= where I try to follow a literate programming
+approach.
+
+I mainly use Emacs for:
+ * org
+ * evil
+ * python
+ * helm
+ * magit
+	 
+Not necessarily in that order.
