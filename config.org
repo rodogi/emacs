@@ -1,7 +1,7 @@
 #+title: Emacs config file
 #+author: Rodrigo Dorantes-Gilardi
 #+email: rodgdor@gmail.com
-#+options: toc:nil num:nil
+#+options: toc:t num:nil
 I recently went for a full migration to an =org= file, and things be said, my config file looks way
 more tidy. I recommend to make the change to have a more *literal programming* kind of =init= file.
 * Personal info
