@@ -232,7 +232,7 @@ Then a little bit of configuration for the interpreter.
 			(setq python-shell-interpreter "/usr/local/bin/jupyter"
 					python-shell-interpreter-args "console --simple-prompt"
 					python-shell-prompt-detect-failure-warning nil)
-	add-to-list 'python-shell-completion-native-disabled-interpreters
+	    (add-to-list 'python-shell-completion-native-disabled-interpreters
 							"jupyter"))
 #+end_src
 
@@ -364,10 +364,25 @@ Include minted package in latex exports.
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listing 'minted)
 #+end_src
+* Org-ref 
 Use the incredible =org-ref= package.
 #+begin_src emacs-lisp
-(use-package org-ref)
+(use-package org-ref
+  :config
+  (setq reftex-default-bibliography '("~/Dropbox/bibliography/bib.bib"))
+  (setq org-ref-pdf-directory '("~/PDFs"))
+  (setq org-latex-logfiles-extensions (quote ("lof" "lot" "tex" "aux" "idx" "log" "out" "toc" "nav"
+  "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "pygtex" "pygstyle")))
+	(getenv "PATH")
+  ;; Get the path where pdflatex is to be able to load it
+	(setenv "PATH"
+	(concat
+	"/Library/TeX/texbin/" ":"
+
+	(getenv "PATH"))))
 #+end_src
+	#+BEGIN_SRC emacs-lisp
+	#+END_SRC
 * Magit
 Magit is a great package where I prefer its keybinding to =C-x g= rather than =C-x m=.
 #+begin_src emacs-lisp
