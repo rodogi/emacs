@@ -4,6 +4,8 @@
 #+options: toc:t num:nil
 I recently went for a full migration to an =org= file, and things be said, my config file looks way
 more tidy. I recommend to make the change to have a more *literal programming* kind of =init= file.
+
+This file is of course continuously being updated, you can see the updated version [[https://github.com/rodogi/emacs/blob/master/config.org][here]].
 * Personal info
 	#+begin_src emacs-lisp
 	(setq user-full-name "Rodrigo Dorantes Gilardi"
