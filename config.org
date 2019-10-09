@@ -103,10 +103,11 @@ Disable auto backup files.
 (setq-default backup-inhibited t)
 #+END_SRC
 * Evil
-Load evil.
+Load evil, and set sentences to be separated by a single space.
 #+begin_src emacs-lisp
 (use-package evil
   :config
+  (setq sentence-end-double-space nil)
   (evil-mode 1))
 #+end_src
 Enable vim-surround everywhere.
@@ -231,10 +232,12 @@ Then a little bit of configuration for the interpreter.
 			:mode ("\\.py\\'" . python-mode) 
 			:interpreter ("python" . python-mode)
 			:config
+			;; So to avoid weird errors
+			(setq elpy-shell-echo-output nil)
 			(setq python-shell-interpreter "/usr/local/bin/jupyter"
 					python-shell-interpreter-args "console --simple-prompt"
 					python-shell-prompt-detect-failure-warning nil)
-	    (add-to-list 'python-shell-completion-native-disabled-interpreters
+			(add-to-list 'python-shell-completion-native-disabled-interpreters
 							"jupyter"))
 #+end_src
 
