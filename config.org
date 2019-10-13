@@ -126,7 +126,6 @@ Use up or down-stream search of visually selected object.
 (setq-default evil-escape-key-sequence "jk"))
 #+end_src 
 
-
 #+begin_src emacs-lisp
 (use-package evil-visualstar
     :config
@@ -232,6 +231,7 @@ Then a little bit of configuration for the interpreter.
 			:mode ("\\.py\\'" . python-mode) 
 			:interpreter ("python" . python-mode)
 			:config
+			(bind-key* "M-." 'elpy-goto-definition)
 			;; So to avoid weird errors
 			(setq elpy-shell-echo-output nil)
 			(setq python-shell-interpreter "/usr/local/bin/jupyter"
@@ -319,13 +319,16 @@ function and then we will create the templates.
 #+end_src
 ** Export
 *** Classes
-		Allow export to different classes, including beamer, markdown, hugo, latex...
+		Allow export to different classes, including beamer, markdown, hugo, latex, reveal.js.
 		#+begin_src emacs-lisp
-(require 'ox-beamer)
-(use-package ox-hugo
-  :after ox)
-;; Pretty html
-(use-package ox-twbs)
+			(require 'ox-beamer)
+			(use-package ox-hugo
+				:after ox)
+			;; Pretty html
+			(use-package ox-twbs)
+			(use-package ox-reveal
+				:config
+				(setq Org-Reveal-root "file:///Users/rdora/slides/reveal.js"))
 		#+end_src
 *** Code blocks
 Allow to evaluate code in =python=, =C=, =bash=, and =elisp=.
