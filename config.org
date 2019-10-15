@@ -4,6 +4,8 @@
 #+options: toc:t num:nil
 I recently went for a full migration to an =org= file, and things be said, my config file looks way
 more tidy. I recommend to make the change to have a more *literal programming* kind of =init= file.
+
+This file is of course continuously being updated, you can see the updated version [[https://github.com/rodogi/emacs/blob/master/config.org][here]].
 * Personal info
 	#+begin_src emacs-lisp
 	(setq user-full-name "Rodrigo Dorantes Gilardi"
@@ -101,10 +103,11 @@ Disable auto backup files.
 (setq-default backup-inhibited t)
 #+END_SRC
 * Evil
-Load evil.
+Load evil, and set sentences to be separated by a single space.
 #+begin_src emacs-lisp
 (use-package evil
   :config
+  (setq sentence-end-double-space nil)
   (evil-mode 1))
 #+end_src
 Enable vim-surround everywhere.
@@ -122,7 +125,6 @@ Use up or down-stream search of visually selected object.
 :config
 (setq-default evil-escape-key-sequence "jk"))
 #+end_src 
-
 
 #+begin_src emacs-lisp
 (use-package evil-visualstar
@@ -229,10 +231,13 @@ Then a little bit of configuration for the interpreter.
 			:mode ("\\.py\\'" . python-mode) 
 			:interpreter ("python" . python-mode)
 			:config
+			(bind-key* "M-." 'elpy-goto-definition)
+			;; So to avoid weird errors
+			(setq elpy-shell-echo-output nil)
 			(setq python-shell-interpreter "/usr/local/bin/jupyter"
 					python-shell-interpreter-args "console --simple-prompt"
 					python-shell-prompt-detect-failure-warning nil)
-	    (add-to-list 'python-shell-completion-native-disabled-interpreters
+			(add-to-list 'python-shell-completion-native-disabled-interpreters
 							"jupyter"))
 #+end_src
 
@@ -314,13 +319,16 @@ function and then we will create the templates.
 #+end_src
 ** Export
 *** Classes
-		Allow export to different classes, including beamer, markdown, hugo, latex...
+		Allow export to different classes, including beamer, markdown, hugo, latex, reveal.js.
 		#+begin_src emacs-lisp
-(require 'ox-beamer)
-(use-package ox-hugo
-  :after ox)
-;; Pretty html
-(use-package ox-twbs)
+			(require 'ox-beamer)
+			(use-package ox-hugo
+				:after ox)
+			;; Pretty html
+			(use-package ox-twbs)
+			(use-package ox-reveal
+				:config
+				(setq Org-Reveal-root "file:///Users/rdora/slides/reveal.js"))
 		#+end_src
 *** Code blocks
 Allow to evaluate code in =python=, =C=, =bash=, and =elisp=.
