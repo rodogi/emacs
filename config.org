@@ -331,6 +331,12 @@ function and then we will create the templates.
 				:config
 				(setq org-reveal-root "file:///Users/rdora/slides/reveal.js"))
 		#+end_src
+    Also require [[https://gitlab.com/oer/emacs-reveal][emacs-reveal]] that was installed directly from github.
+    #+begin_src emacs-lisp
+(add-to-list 'load-path "/Users/rdora/.emacs.d/elpa/emacs-reveal")
+(require 'emacs-reveal)
+    
+    #+end_src
 *** Code blocks
 Allow to evaluate code in =python=, =C=, =bash=, and =elisp=. Also, respect indentation when
 exported to html.
