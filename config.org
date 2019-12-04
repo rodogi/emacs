@@ -246,6 +246,8 @@ Use =jedi= for autocompletion. If used for the first time, we need to run the co
 
 #+begin_src emacs-lisp
 	(use-package jedi
+		:bind ("C-c ." . jedi:goto-definition)
+
 		:config
 		(add-hook 'python-mode-hook 'jedi:setup)
 		(setq jedi:complete-on-dot t))
