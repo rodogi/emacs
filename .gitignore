@@ -60,3 +60,7 @@ flycheck_*.el
 /network-security.data
 /projectile-bookmarks.eld
 /recentf
+/emacs-reveal-submodules/
+/oer-reveal-org/backmatter-de.org
+/oer-reveal-org/backmatter-ercis.org
+/*.org

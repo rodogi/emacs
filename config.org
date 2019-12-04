@@ -222,7 +222,8 @@ Let's start with installing =elpy=. Also, let's add jedi as the
 			;; The path to python3
 			(setq exec-path (append exec-path '("/usr/local/bin")))
 			(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-			(setq elpy-rpc-python-command "/usr/local/bin/python3"))
+			(setq elpy-rpc-python-command "/usr/local/bin/python3")
+      (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+end_src
 	
 Then a little bit of configuration for the interpreter.
@@ -330,22 +331,32 @@ function and then we will create the templates.
 			(use-package ox-twbs)
 			(use-package ox-reveal
 				:config
-				(setq Org-Reveal-root "file:///Users/rdora/slides/reveal.js"))
+				(setq org-reveal-root "file:///Users/rdora/slides/reveal.js"))
 		#+end_src
+    Also require [[https://gitlab.com/oer/emacs-reveal][emacs-reveal]] that was installed directly from github.
+    #+begin_src emacs-lisp
+(add-to-list 'load-path "/Users/rdora/.emacs.d/elpa/emacs-reveal")
+(require 'emacs-reveal)
+    
+    #+end_src
 *** Code blocks
-Allow to evaluate code in =python=, =C=, =bash=, and =elisp=.
+Allow to evaluate code in =python=, =C=, =bash=, and =elisp=. Also, respect indentation when
+exported to html.
 
 #+begin_src emacs-lisp
-(org-babel-do-load-languages
- 'org-babel-load-languages '((C . t)
-			     (python . t)
-			     (emacs-lisp . t)
-					 (shell . t)))
+	(org-babel-do-load-languages
+	 'org-babel-load-languages '((C . t)
+						 (python . t)
+						 (emacs-lisp . t)
+						 (shell . t)))
+  (setq org-babel-python-command "python3")
 #+end_src
 
 Allow TAB to function normally inside code blocks.
 #+BEGIN_SRC emacs-lisp
-(setq org-src-tab-acts-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq-default indent-tabs-mode nil)
+  (setq org-src-preserve-indentation t)
 #+END_SRC
 *** Latex
 		Set the process of compilation of a latex document.
