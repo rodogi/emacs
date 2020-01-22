@@ -419,7 +419,7 @@ Helm is great for file exploration.
 		(helm-mode 1)
 		(global-set-key (kbd "C-x C-f") 'helm-find-files))
 #+end_src
-Let's bind `C-f C-a` to =helm-apropos=
+Let's bind `C-x C-a` to =helm-apropos=
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-a") 'helm-apropos)
 #+END_SRC
