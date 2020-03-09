@@ -18,6 +18,10 @@ old_init*
 /transient/
 /url/
 
+oer-reveal-org
+semanticdb
+google/*
+
 
 # Org-mode
 .org-id-locations
