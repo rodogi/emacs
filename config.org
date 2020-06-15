@@ -235,7 +235,7 @@ Then a little bit of configuration for the interpreter.
 			(bind-key* "M-." 'elpy-goto-definition)
 			;; So to avoid weird errors
 			(setq elpy-shell-echo-output nil)
-			(setq python-shell-interpreter "/usr/local/bin/jupyter"
+			(setq python-shell-interpreter "jupyter"
 					python-shell-interpreter-args "console --simple-prompt"
 					python-shell-prompt-detect-failure-warning nil)
 			(add-to-list 'python-shell-completion-native-disabled-interpreters
@@ -510,3 +510,6 @@ Projectile is a package to work on projects defined by a directory. Let's first 
 		(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 #+end_src
+* Tramp
+  Sometimes, I like working in a remote server. I use mainly python so I want to work when I am
+  working on the server.
