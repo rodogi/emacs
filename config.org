@@ -110,6 +110,32 @@ Load evil, and set sentences to be separated by a single space.
   (setq sentence-end-double-space nil)
   (evil-mode 1))
 #+end_src
+Accents, accents everywhere (I am a Spanish speaker)
+#+BEGIN_SRC emacs-lisp
+(defun read-accent (letter)
+  "Return acute accented vowel"
+  (interactive "c")
+  (setq letter (char-to-string letter))
+  (cond ((string= letter "a") (insert-char 0225))
+        ((string= letter "A") (insert-char 0193))
+        ((string= letter "e") (insert-char 0233))
+        ((string= letter "E") (insert-char 0201))
+        ((string= letter "i") (insert-char 0237))
+        ((string= letter "I") (insert-char 0205))
+        ((string= letter "o") (insert-char 0243))
+        ((string= letter "O") (insert-char 0211))
+        ((string= letter "u") (insert-char 0250))
+        ((string= letter "U") (insert-char 0218))
+        (t (insert-char 593))))
+(defun tilde-n (letter)
+  "Return the letter n with a tilde"
+  (interactive "c")
+  (setq letter (char-to-string letter))
+  (cond ((string= letter "n") (insert-char 241))
+        (t (insert-char 241))))
+(global-set-key (kbd "M-e") 'read-accent)
+(global-set-key (kbd "M-n") 'tilde-n)
+#+END_SRC
 Enable vim-surround everywhere.
 
 #+begin_src emacs-lisp
